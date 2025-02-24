@@ -1,0 +1,9 @@
+discord
+humanfriendly
+onnxruntime
+nudenet
+colorama
+aiosqlite
+asyncio
+python-dotenv
+aiohttp
