@@ -1,5 +1,5 @@
 # Advanced Moderation System
-This is **</EmeraldDev06>**'s open source & advanced moderation system that includes NSFW detector
+This is **<\/EmeraldDev06\>**'s open source & advanced moderation system that includes NSFW detector
 Improvements must be made, since it's first version of the open source code
 - [ ] Support for Tempban
 - [ ] User-friendly guide on how to use it
