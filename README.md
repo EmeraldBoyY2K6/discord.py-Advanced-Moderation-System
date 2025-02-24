@@ -1,9 +1,11 @@
-# discord.py-Moderation-System-NSFW-Detection-
-My recipe of working Auto-Moderation System
-
+# Advanced Moderation System
+This is **</EmeraldDev06>**'s open source & advanced moderation system that includes NSFW detector
+Improvements must be made, since it's first version of the open source code
+- [ ] Support for Tempban
+- [ ] User-friendly guide on how to use it
 
 > [!NOTE]
-> You can fork this, improvise it.
+> You can fork this & improvise it.
 > This code has support for multiple servers (So, feel free to use it on multiple servers!)
 
 > [!IMPORTANT]
