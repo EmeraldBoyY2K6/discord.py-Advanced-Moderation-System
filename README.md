@@ -12,6 +12,7 @@ Improvements must be made, since it's first version of the open source code
 
 > [!IMPORTANT]
 > The NSFW detection can sometimes flags innocent things. I learned the hard way as an developer. (If it works then it works!)
+> Also, create an .env file & put the token in there `TOKEN="PutYourDiscordBotTokenHere"`
 
 > [!TIP]
 > I highly recommend using [Silly Development](https://sillydev.co.uk/)'s VPS Service if you are searching ways to host your bot 24/7. (ToS is enforced in there, gotta tell you that!)
