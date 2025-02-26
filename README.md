@@ -1,5 +1,5 @@
 # Advanced Moderation System For Discord Bots
-This is **<\/EmeraldDev06\>**'s open source & advanced moderation system that includes NSFW detector that you can use for your & your friend's discord servers!
+This is **<\/EmeraldDev06\>**'s open source & advanced moderation discord bot that includes NSFW detector that you can use for your & your friend's discord servers!
 This includes moderation actions with working multi-ban commands!
 Improvements must be made, since it's first version of the open source code
 - [ ] Working Logging System for the Automod
