@@ -7,9 +7,10 @@ Improvements must be made, since it's first version of the open source code
 - [ ] User-friendly guide on how to use it
 
 > [!IMPORTANT]
+> The slurs & offensives added as default to prevent people tiring themselves by researching what word is offensive & what word is a slur!
 > The NSFW detection can sometimes flags innocent things. I learned the hard way as an developer. (If it works then it works!)
 > The NSFW detector detects the images only & can't be turned off for reason (Weirdos bypassing Discord's Anti NSFW system by posting adult URL's)
-> Also, create an .env file & put the token in there `TOKEN="PutYourDiscordBotTokenHere"`
+> Also, to run the but put the token in .env file `TOKEN="PutYourDiscordBotTokenHere"`
 
 > [!NOTE]
 > You can fork this & improvise it.
