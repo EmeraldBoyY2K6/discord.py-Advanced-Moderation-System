@@ -2,7 +2,8 @@
 This is **<\/EmeraldDev06\>**'s open source & advanced moderation system that includes NSFW detector!
 This includes moderation actions with working multi-ban commands!
 Improvements must be made, since it's first version of the open source code
-- [ ] Support for Tempban
+- [ ] Working Logging System for the Automod
+- [ ] Ability to setup other punishment for inappropriate profile picture than just ban
 - [ ] User-friendly guide on how to use it
 
 > [!NOTE]
