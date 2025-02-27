@@ -1794,7 +1794,91 @@ async def set_mute_role(ctx: discord.Interaction, mute_role: discord.Role):
     mt_cursor.execute('INSERT OR REPLACE INTO mute_roles (guild_id, mute_role) VALUES (?, ?)', (guild_id, mute_role_id))
     mt_conn.commit()
 
-    await ctx.response.send_message(f'Mute role set to {mute_role.mention} for this server.',ephemeral=True)        
+    await ctx.response.send_message(f'Mute role set to {mute_role.mention} for this server.',ephemeral=True)
+
+@automodstg.command(name="view-config",description="Views the configuration of the automod")
+@app_commands.checks.has_permissions(administrator=True)
+async def automod_config(ctx: discord.Interaction):
+    guild_id = ctx.guild.id
+
+    await ctx.response.defer(ephemeral=True)
+    await asyncio.sleep(1)
+
+    mute_info = ""
+
+    # Connect to the mute_roles database
+    mt_conn = sqlite3.connect('mute_roles.db')
+    mt_cursor = mt_conn.cursor()
+
+    # Fetch the mute role for the guild
+    mt_cursor.execute('SELECT mute_role FROM mute_roles WHERE guild_id = ?', (guild_id,))
+    result = mt_cursor.fetchone()
+
+    if result:
+        mute_role_id = result[0]
+        mute_role = ctx.guild.get_role(mute_role_id)
+        mute_info = f"**Mute Role** - {mute_role.mention}" if mute_role else "**Mute Role** - *Unknown role*"
+    else:
+        mute_info = "**Mute Role** - *No mute role set for this server*"    
+
+    punishment_cursor.execute('''
+    SELECT violation_type, punishment_type, timeout_duration 
+    FROM punishments 
+    WHERE guild_id = ?
+    ''', (guild_id,))
+        
+    punishment_data = punishment_cursor.fetchall()
+        
+    punishment_cursor.execute('''
+    SELECT channel_id, policy 
+    FROM link_policies 
+    WHERE guild_id = ?
+    ''', (guild_id,))
+    
+    link_policy_data = punishment_cursor.fetchall()
+        
+    if not punishment_data and not link_policy_data:
+        await ctx.followup.send("No configuration found for this server.", ephemeral=True)
+        return
+    config_list = []
+    if punishment_data:
+        config_list.append("**Punishment Settings**")
+        for violation_type, punishment_type, timeout_duration in punishment_data:
+            if timeout_duration:
+                config_list.append(f"**{violation_type}** - {punishment_type} with timeout duration {timeout_duration}")
+            else:
+                config_list.append(f"**{violation_type}** - {punishment_type}")
+
+    if link_policy_data:
+        config_list.append("\n**Link Policy Settings**")
+        for channel_id, policy in link_policy_data:
+            channel = ctx.guild.get_channel(channel_id)
+            channel_name = channel.mention if channel else f"Deleted Channel (ID: {channel_id})"
+            config_list.append(f"{channel_name} - {policy}")
+
+    punishment_cursor.execute('''
+    SELECT dm_enabled, notify_for_violations, notify_for_warnings 
+    FROM dm_settings 
+    WHERE guild_id = ?
+    ''', (guild_id,))
+    dm_result = punishment_cursor.fetchone()
+    
+    if dm_result:
+        dm_enabled, notify_for_violations, notify_for_warnings = dm_result
+        config_list.append(f"\n**DM Settings**")
+        config_list.append(f"**DMs Enabled** - {'Yes' if dm_enabled else 'No'}")
+        config_list.append(f"**DMs for Violations** - {'Yes' if notify_for_violations else 'No'}")
+        config_list.append(f"**DMs for Warnings** - {'Yes' if notify_for_warnings else 'No'}")
+    
+    embed = discord.Embed(
+        title="Automod Configuration",
+        description=f"For **{ctx.guild.name}** (ID - {ctx.guild.id})\n{mute_info}\n\n" + "\n".join(config_list),
+        color=random.choice(colors)
+    )
+    embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
+    embed.set_footer(text=f"Requested by {ctx.user.global_name} • Code by </EmeraldDev06> / On Discord & GitHub", icon_url=ctx.user.avatar.url)
+    
+    await ctx.followup.send(embed=embed,ephemeral=True)
 
 # ------------------------------------------------------------------------------------------------------------
 # About this bot.
